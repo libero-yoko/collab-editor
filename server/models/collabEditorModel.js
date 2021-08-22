@@ -7,6 +7,7 @@ mongoose.connect(MONGO_URI, {
   // options for the connect method to parse the URI
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useFindAndModify: false,
   // sets the name of the DB that our collections are part of
   dbName: 'petAdoption'
 })
@@ -19,6 +20,7 @@ const collabSchema = new Schema(
   {
     content: {type: String, required:false},
     created_at : {type: Date, required: false},
+    conversationId: {type: String,  required:false},
     lastMutation: {
       author: {type: String,  required:false},
       conversationId: {type: String,  required:false},

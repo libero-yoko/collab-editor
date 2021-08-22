@@ -12,35 +12,64 @@ mutationController.postMutations = (req, res, next)=>{
   let newMutation;
 
 
-  collabEditors.findOne({"_id": id})
+  collabEditors.findOne({"conversationId": id})
   .then(conversation => {
-    console.log(conversation)
-    // determin if transformation is necessary
-    const isTransformNeeded = determineIfTransformNeeded(mutation, conversation);
-    // if transformation is necessary, update the mutation
-    newMutation = (isTransformNeeded)? transform(mutation, conversation): mutation;
-    // if (isTransformNeeded){
-    //   newMutation = transform(mutation, conversation);
-    // } else{
-    //   newMutation = mutation;
-    // }
-    console.log('newMutation', newMutation)
-    updatedString = editString(newMutation, conversation.content);
-    console.log(updatedString)
-    
-  })
-  .then(() => {
-    // form retruning object
-    console.log(updatedString)
-    collabEditors.findOneAndUpdate({"_id": id}, {"content": updatedString, "lastMutation":newMutation}, (err) =>{
-      console.log(err);
-    })
+    // new conversation
+    if(!conversation){
+       
+        const conversationInfo = {
+          content: data.text,
+          conversationId: id,
+          lastMutation: mutation
+        }
 
-    res.locals.updatedString = updatedString;
-    return next();
+        // console.log(conversationInfo)
+        collabEditors.create(conversationInfo)
+        .then((data)=>{
+          res.locals.message = {
+            "msg": "Successfully Created Conversation",
+            "ok": true,
+            "text": data.content
+        }
+          return next();
+        })
+        .catch((e) => {
+          res.locals.message = {
+              "msg": e,
+              "ok": false,
+              "text":conversationInfo.content
+          };
+          return next();
+        })
+      // existing conversation
+      }else{
+        // determin if transformation is necessary
+        const isTransformNeeded = determineIfTransformNeeded(mutation, conversation);
+        // if transformation is necessary, update the mutation
+        newMutation = (isTransformNeeded)? transform(mutation, conversation): mutation;
+        updatedString = editString(newMutation, conversation.content);
+        // form retruning object
+        collabEditors.findOneAndUpdate(
+          {"conversationId": id}, 
+          {"content": updatedString, "lastMutation":newMutation}, 
+          (err) =>{
+        console.log(err);
+        res.locals.message = {
+          "msg": "Successfully Updated Conversation",
+          "ok": true,
+          "text": updatedString
+      };
+        return next();
+    })
+    }
   })
   .catch((e) => {
-    console.log(e);
+    res.locals.message = {
+      "msg": e,
+      "ok": false,
+      "text":mutation.content
+  };
+    return next();
   })
 }
 
@@ -59,7 +88,7 @@ const transform = (mutation, lastConversation) => {
     // return combined mutation
     let author = mutation.author
     let index  = mutation.data.index
-
+    // console.log("original index", index)
     if(lastConversation.lastMutation.data.type === 'delete'){
       mutation.data.index = index - lastConversation.lastMutation.data.length;
     } else if (lastConversation.lastMutation.data.type === 'insert'){
@@ -67,6 +96,7 @@ const transform = (mutation, lastConversation) => {
     }else{
       throw error
     }
+    // console.log("mutated index", mutation.data.index)
     // if the lastMutation was delete
     // if the lastMutation was insert
     mutation.origin[author] += 1;
@@ -82,18 +112,21 @@ const editString = (mutation, lastVersionText) => {
   let type = mutation.data.type;
 
   if (type === 'insert'){
-    string = [lastVersionText.slice(0, index + 1), text, lastVersionText.slice(index + 1)].join('');
+    string = [lastVersionText.slice(0, index), text, lastVersionText.slice(index)].join('');
   }else if (type === 'delete'){
-    string = [lastVersionText.slice(0, index - 1), lastVersionText.slice(index + length)].join('');
+    if(index === 0){
+      // console.log("index === 0")
+      string = lastVersionText.slice(index + length);
+    }else if (index + length >= lastVersionText.length){
+      // console.log("index + length >= lastVersionText.length")
+      string = lastVersionText.slice(0, index);
+    }else{
+      // console.log("else")
+      string = [lastVersionText.slice(0, index), lastVersionText.slice(index + length)].join('');
+    }
+
   }
   return string
 }
-
-const storeDataInDB = (messageId, newText, mutation) => {
-    // update DB
-}
-
-
-
 
 export default mutationController;

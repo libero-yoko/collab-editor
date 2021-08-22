@@ -7,7 +7,7 @@ router.get('/', (req, res)=>{
 })
 
 router.post('/', mutationsController.postMutations, (req, res)=>{
-  res.status(200).send(res.locals.updatedString);
+  res.status(201).send(res.locals.message);
 })
 
 export default router;

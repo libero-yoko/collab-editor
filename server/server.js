@@ -6,45 +6,47 @@ import infoRouter from './routes/infoRouter.js'
 import mutationsRouter from './routes/mutationsRouter.js'
 import conversationsRouter from './routes/conversationsRouter.js'
 
-
 const PORT = 3000;
-const api = express();
+const app = express();
 const corsOptions = {
   origin: 'https://app.ava.me',
   methods: "POST",
   optionsSuccessStatus: 200 // for legacy browsers
 };
+
+app.use(cors(corsOptions))
+
 /***************************** 
   Parsers and Static handlers
 ******************************/
-api.use('/' , express.static('../client'));
-api.use('/' , express.static('../build'));
-api.use(express.json());
-api.use(express.urlencoded({extended: true}));
+app.use('/' , express.static('../client'));
+app.use('/' , express.static('../build'));
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
 
 /************************ 
   Route Handlers 
 *************************/
-api.get('/', (req, res) =>{
+app.get('/', (req, res) =>{
   res.status(200).sendFile(path.resolve('./index.html'));
 });
 
-api.get('/ping', (req, res) =>{
+app.get('/ping', (req, res) =>{
   res.status(200).send({'ok':true, 'msg':'pong'});
 });
 
-api.use('/info', infoRouter);
-api.use('/mutations', mutationsRouter);
-api.use('/conversations', conversationsRouter);
+app.use('/info', infoRouter);
+app.use('/mutations', mutationsRouter);
+app.use('/conversations', conversationsRouter);
 
 /************************ 
   Error Handlers 
 *************************/
 // catch-all route handler for any requests to an unknown route
-api.use((req, res) => res.status(404).send("Error 404"));
+app.use((req, res) => res.status(404).send("Error 404"));
 
 // global error handler
-api.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   const defaultErr = {
     log: "Express error handler caught unknown middleware error",
     status: 500,
@@ -58,8 +60,8 @@ api.use((err, req, res, next) => {
 /************************ 
   Starting Server
 *************************/
-api.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Server listening on port: ${PORT}...`);
 });
 
-export default api;
+export default app;
