@@ -17,14 +17,7 @@
         "bob": "0"
       }
     }
-  },
-  {
-    "message_id" : "000002",
-    "user1": "yoko",
-    "user2": "alice",
-    "content": "See you on Sunday!",
-    "lastUpdatedBy": "yoko",
-    "origin": ["5", "0"],
-    "created_at": "timestamp"
   }
 ]
+
+
