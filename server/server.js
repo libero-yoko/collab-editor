@@ -19,8 +19,8 @@ app.use(cors(corsOptions))
 /***************************** 
   Parsers and Static handlers
 ******************************/
-app.use('/' , express.static('../client'));
-app.use('/' , express.static('../build'));
+app.use('/' , express.static(path.resolve('./client')));
+app.use('/' , express.static(path.resolve('./build')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
@@ -28,7 +28,7 @@ app.use(express.urlencoded({extended: true}));
   Route Handlers 
 *************************/
 app.get('/', (req, res) =>{
-  res.status(200).sendFile(path.resolve('./index.html'));
+  res.status(200).sendFile(path.resolve('./client/index.html'));
 });
 
 app.get('/ping', (req, res) =>{

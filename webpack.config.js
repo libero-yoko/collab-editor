@@ -1,7 +1,7 @@
 import path from 'path';
 
 export default {
-  entry: '/client/index.js',
+  entry: path.resolve('./', '/client/index.js',),
   output: {
     path: path.resolve('./', 'build'),
     filename: 'bundle.js',
@@ -30,12 +30,17 @@ export default {
     ],
   },
   devServer: {
+    allowedHosts:[
+      'avahq.github.io',
+      'app.ava.me',
+      'localhost'
+    ],
     static: {
-      directory: path.join('./', 'client'),
+      directory:  path.resolve('./', '/client',),
     },
     proxy: {
-      '/**': {
-        target: 'http://127.0.0.1:3000',
+      '/*': {
+        target: 'http://localhost:3000',
         secure: false,
       },
     },

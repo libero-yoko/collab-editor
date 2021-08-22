@@ -1,9 +1,11 @@
-import react, {useState, useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 
-const App = () => {
+function App(){
   return(
     <>
-      <h1>Hello World from App.jsx</h1>
+      <h1>Hello World from App.jsx aa</h1>
     </>
   )
 }
+
+export default App;

@@ -2,7 +2,7 @@
   "name": "collab-editor",
   "version": "1.0.0",
   "description": "Collaborative editing system",
-  "main": "index.js",
+  "main": "./index.js",
   "type": "module",
   "scripts": {
     "start": "nodemon server/server.js",
