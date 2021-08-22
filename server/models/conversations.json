@@ -1,0 +1,30 @@
+[
+  {
+    "message_id" : "000001",
+    "content": "The house is red.",
+    "created_at": "timestamp",
+    "lastMutation": {
+      "author": "alice",
+      "conversationId": "000001",
+      "data": {
+        "index": "5",
+        "length": "4",
+        "text": "",
+        "type": "insert"
+      },
+      "origin": {
+        "alice": "5",
+        "bob": "0"
+      }
+    }
+  },
+  {
+    "message_id" : "000002",
+    "user1": "yoko",
+    "user2": "alice",
+    "content": "See you on Sunday!",
+    "lastUpdatedBy": "yoko",
+    "origin": ["5", "0"],
+    "created_at": "timestamp"
+  }
+]
