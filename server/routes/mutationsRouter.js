@@ -6,10 +6,7 @@ router.get('/', (req, res)=>{
   console.log('post mutations');
 })
 
-router.post('/', mutationsController.postMutations, (err, req, res)=>{
-  if(err){
-    res.status(400).send(res.locals.message);
-  }
+router.post('/', mutationsController.postMutations, (req, res)=>{
   res.status(201).send(res.locals.message);
 })
 

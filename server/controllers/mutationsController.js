@@ -69,13 +69,13 @@ mutationController.postMutations = (req, res, next)=>{
     })
     }
   })
-  .catch((e) => {
+  .catch((err) => {
     res.locals.message = {
-      "msg": e,
+      "msg": err,
       "ok": false,
       "text":mutation.content
-  };
-    return next();
+    };
+    return next(err);
   })
 }
 
@@ -133,11 +133,6 @@ const editString = (mutation, lastVersionText) => {
 
   }
   return string
-}
-
-const errorHandler = (err, req, res, next) => {
-  res.status(err.statusCode || 500);
-  res.send({ error: err });
 }
 
 
