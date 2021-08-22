@@ -11,6 +11,12 @@ mutationController.postMutations = (req, res, next)=>{
   let updatedString;
   let newMutation;
 
+  if(!author || !conversationId || !data || !origin){
+    const err = new Error('missing field');
+    err.statusCode = 400;
+    next(err);
+  }
+
 
   collabEditors.findOne({"conversationId": id})
   .then(conversation => {
@@ -33,13 +39,13 @@ mutationController.postMutations = (req, res, next)=>{
         }
           return next();
         })
-        .catch((e) => {
+        .catch((err) => {
           res.locals.message = {
               "msg": e,
               "ok": false,
               "text":conversationInfo.content
           };
-          return next();
+          return next(err);
         })
       // existing conversation
       }else{
@@ -128,5 +134,11 @@ const editString = (mutation, lastVersionText) => {
   }
   return string
 }
+
+const errorHandler = (err, req, res, next) => {
+  res.status(err.statusCode || 500);
+  res.send({ error: err });
+}
+
 
 export default mutationController;
