@@ -11,20 +11,23 @@ function App(){
       console.log(dataList.conversations)
     })
   },[]);
-
-  const deleteData = (id) => {
-    fetch('/conversations/' + id, {
-      method: 'DELETE',
+  
+  const deleteData = (event, id) => {
+    fetch(`/conversations/${id}`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
     })
     .then(res => res.json())
-    .then(res => console.log(res))}
+    .then(res => {
+      console.log(res)
+    })}
 
   return(
     <>
-      <h2>List of conversation</h2>
+      <h2>List of conversations</h2>
       {conversation.map((row) => (
-            <li key={row.conversationId}>
-              <button onClick={e => deleteData(row.conversationId)}>Delete</button>
+            <li key={row.conversationId} id={row.conversationId}>
+              <button onClick={e => deleteData(e,row.conversationId)}>Delete</button>
               {row.content} 
             </li>
           ))}

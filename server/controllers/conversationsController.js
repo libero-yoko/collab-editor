@@ -5,7 +5,7 @@ conversationsController.getConversations = (req, res, next)=>{
   
   collabEditors.find({})
   .then(conversations => {
-    console.log(conversations.length)
+    // console.log(conversations.length)
     if(conversations.length === 0){
       const err = new Error('No data stored under the given Id');
       err.statusCode = 400;
@@ -16,15 +16,15 @@ conversationsController.getConversations = (req, res, next)=>{
         "ok": true,
         "conversations": conversations
     };
-      console.log(res.locals.message);
+      // console.log(res.locals.message);
       return next();
     }
   })
 }
 
 conversationsController.deleteConversation = (req, res, next)=>{
-  console.log("deleting")
-  const {id} = req.param.id;
+  console.log("deleting",  [req.params.id])
+  const id =  [req.params.id];
   console.log(id)
   if(!id){
     const err = new Error('missing id');
@@ -32,10 +32,9 @@ conversationsController.deleteConversation = (req, res, next)=>{
     next(err);
   }else{
 
-    collabEditors.remove({"conversationId":id})
+    collabEditors.deleteOne({"conversationId":id})
     .then(conversations => {
-      console.log(conversations.length)
-      if(conversations.length === 0){
+      if(!conversations){
         const err = new Error('No data stored under the given Id');
         err.statusCode = 400;
         next(err);
@@ -44,7 +43,7 @@ conversationsController.deleteConversation = (req, res, next)=>{
           "msg": "Successfully Deleted" + conversations.ok + " Conversations",
           "ok": true,
       };
-        console.log(res.locals.message);
+        // console.log(res.locals.message);
         return next();
      };
     });
