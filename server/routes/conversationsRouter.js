@@ -1,9 +1,9 @@
 import express from 'express';
-
+import conversationsController from '../controllers/conversationsController.js'
 const router = express.Router();
 
-router.get('/', (req, res)=>{
-  res.status(200).send('get conversasions');
+router.get('/', conversationsController.getConversations, (req, res)=>{
+  res.status(200).send(res.locals.message);
 })
 
 router.delete('/', (req, res)=>{
