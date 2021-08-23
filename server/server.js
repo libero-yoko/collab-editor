@@ -19,8 +19,8 @@ app.use(cors(corsOptions))
 /***************************** 
   Parsers and Static handlers
 ******************************/
-app.use('/' , express.static(path.resolve('./client')));
-app.use('/' , express.static(path.resolve('./build')));
+app.use('/client' , express.static(path.resolve('./client')));
+app.use('/build' , express.static(path.resolve('./build')));
 app.use(express.json());
 app.use(express.urlencoded({extended: true}));
 
