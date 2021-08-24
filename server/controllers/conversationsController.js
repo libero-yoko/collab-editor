@@ -32,7 +32,7 @@ conversationsController.deleteConversation = (req, res, next)=>{
     next(err);
   }else{
 
-    collabEditors.deleteOne({"conversationId":id})
+    collabEditors.deleteOne({"_id":id})
     .then(conversations => {
       if(!conversations){
         const err = new Error('No data stored under the given Id');

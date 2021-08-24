@@ -20,6 +20,7 @@ function App(){
     .then(res => res.json())
     .then(res => {
       console.log(res)
+
     })}
 
   return(
@@ -27,7 +28,7 @@ function App(){
       <h2>List of conversations</h2>
       {conversation.map((row) => (
             <li key={row.conversationId} id={row.conversationId}>
-              <button onClick={e => deleteData(e,row.conversationId)}>Delete</button>
+              <button onClick={event => deleteData(event,row.conversationId)}>Delete</button>
               {row.content} 
             </li>
           ))}
