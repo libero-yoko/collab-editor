@@ -27,6 +27,14 @@ li {
   flex:auto;
 }
 
+.list-text .last-mutation{
+  display: none;
+}
+
+.list-text:hover .last-mutation{
+  display: block;
+}
+
 .list-like {
   width:30px;
 }

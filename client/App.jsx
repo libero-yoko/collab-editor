@@ -62,7 +62,10 @@ function App(){
                   <>☆</>
                 )}
                 </div>
-                <div className="list-text">{row.updated_text}</div>
+                <div className="list-text">{row.updated_text}
+                  <span className="last-mutation">{row.lastMutation[row.lastMutation.length-1].author}
+                  </span>
+                </div>
                 <button className="list-button" onClick={deleteData}>−</button>
               </li>
           ))}
