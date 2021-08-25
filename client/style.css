@@ -25,10 +25,20 @@ li {
 
 .list-text {
   flex:auto;
+  position:relative;
 }
 
 .list-text .last-mutation{
+  padding: 3px 20px;
+  position:absolute;
+  border: 5px solid lightgray;
+  border-radius: 5px;
+  background-color: #FFFFFF;
+  z-index: 100;
   display: none;
+  transition: 500ms;
+  right:10px;
+  top:-3px;
 }
 
 .list-text:hover .last-mutation{
@@ -67,6 +77,7 @@ button {
 }
 
 .content .content-main{
+  min-width:180px;
   flex:70%;
 }
 

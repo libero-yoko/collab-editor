@@ -21,6 +21,7 @@ const collabSchema = new Schema(
     updated_text: {type: String, required:false},
     _id: {type: String,  required:true},
     lastMutation: [{
+      last_updated_text: {type: String,  required:false},
       author: {type: String,  required:false},
       data: {
         index: {type: Number,  required:false},

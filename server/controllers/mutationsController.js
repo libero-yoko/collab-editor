@@ -6,7 +6,6 @@ mutationController.postMutations = (req, res, next)=>{
   // destructure request body data
   const {author, conversationId, data, origin} = req.body;
   let mutation = {author, conversationId, data, origin};
-  // console.log(mutation.conversationId);
 
   if(!author || !conversationId || !data || !origin){
     const err = new Error('missing field');
@@ -109,7 +108,7 @@ const transform = (mutation, lastConversation) => {
     // return combined mutation
     let author = mutation.author
     let index  = mutation.data.index
-    // console.log("original index", index)
+
     if(lastConversation.lastMutation[0].data.type === 'delete'){
       mutation.data.index = index - lastConversation.lastMutation[0].data.length;
     } else if (lastConversation.lastMutation.data.type === 'insert'){
@@ -117,9 +116,6 @@ const transform = (mutation, lastConversation) => {
     }else{
       throw error
     }
-    // console.log("mutated index", mutation.data.index)
-    // if the lastMutation was delete
-    // if the lastMutation was insert
     mutation.origin[author] += 1;
 
     return mutation;

@@ -63,8 +63,14 @@ function App(){
                 )}
                 </div>
                 <div className="list-text">{row.updated_text}
-                  <span className="last-mutation">{row.lastMutation[row.lastMutation.length-1].author}
-                  </span>
+                  <div className="last-mutation">
+                      <strong>Last Mutation</strong><br/>
+                      Author:{row.lastMutation[row.lastMutation.length-1].author}, <br/>
+                      Type:{row.lastMutation[row.lastMutation.length-1].data.type}, <br/>
+                      Length:{row.lastMutation[row.lastMutation.length-1].data.length}, <br/>
+                      Index:{row.lastMutation[row.lastMutation.length-1].data.index}, <br/>
+                      Text:{row.lastMutation[row.lastMutation.length-1].data.text}, <br/>
+                  </div>
                 </div>
                 <button className="list-button" onClick={deleteData}>−</button>
               </li>
