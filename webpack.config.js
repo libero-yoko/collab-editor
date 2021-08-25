@@ -6,7 +6,8 @@ export default {
     path: path.resolve('./', 'build'),
     filename: 'bundle.js',
   },
-  mode: process.env.NODE_ENV,
+  // mode: process.env.NODE_ENV,
+  mode: 'development',
   module: {
     rules: [
       {
@@ -20,15 +21,16 @@ export default {
         },
       },
       {
-        test: /\.s[ac]ss$/i,
+        test: /\.css$/,
         use: [
-          'style-loader',
-          'css-loader',
-          'sass-loader',
+          {loader: 'style-loader'},
+          {loader: 'css-loader'},
+          {loader: 'sass-loader'},
         ],
       },
     ],
   },
+
   devServer: {
     allowedHosts:[
       'avahq.github.io',
@@ -42,7 +44,20 @@ export default {
       '/*': {
         target: 'http://localhost:3000',
         secure: false,
+        changeOrigin: true,
       },
+      '/conversations': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/info': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/mutations': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      }
     },
     port: 8080,
     hot: true,

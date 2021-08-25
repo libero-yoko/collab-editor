@@ -33,20 +33,26 @@ conversationsController.deleteConversation = (req, res, next)=>{
   }else{
 
     collabEditors.deleteOne({"_id":id})
-    .then(conversations => {
-      if(!conversations){
+    .then(res => {
+      console.log(res)
+      if(res.deletedCount === 0){
         const err = new Error('No data stored under the given Id');
         err.statusCode = 400;
         next(err);
       }else{
         res.locals.message = {
-          "msg": "Successfully Deleted" + conversations.ok + " Conversations",
+          "msg": "Successfully Deleted" + res.deletedCount + " Conversations",
           "ok": true,
       };
-        // console.log(res.locals.message);
+        console.log(res.locals.message);
         return next();
      };
-    });
+    })
+    .catch((err) => {
+      err.statusCode = 400;
+      next(err);
+    })
+
   };
 };
 

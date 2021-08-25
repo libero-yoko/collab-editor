@@ -9,8 +9,8 @@ import conversationsRouter from './routes/conversationsRouter.js'
 const PORT = 3000;
 const app = express();
 const corsOptions = {
-  origin: 'https://app.ava.me',
-  methods: "POST",
+  origin: ['https://app.ava.me', 'http://localhost', 'http://54.212.195.53'],
+  methods: ['GET', 'POST', "DELETE"],
   optionsSuccessStatus: 200 // for legacy browsers
 };
 
