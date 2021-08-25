@@ -35,9 +35,7 @@ conversationsController.getConversations = (req, res, next)=>{
 ******************************/
 
 conversationsController.deleteConversation = (req, res, next)=>{
-  console.log("deleting",  [req.params.id])
   const id =  [req.params.id];
-  console.log(id)
   if(!id){
     const err = new Error('missing id');
     err.statusCode = 400;
@@ -46,7 +44,6 @@ conversationsController.deleteConversation = (req, res, next)=>{
 
     collabEditors.deleteOne({"_id":id})
     .then(res => {
-      console.log(res)
       if(res.deletedCount === 0){
         const err = new Error('No data stored under the given Id');
         err.statusCode = 400;
@@ -56,7 +53,6 @@ conversationsController.deleteConversation = (req, res, next)=>{
           "msg": "Successfully Deleted" + res.deletedCount + " Conversations",
           "ok": true,
       };
-        console.log(res.locals.message);
         return next();
      };
     })
