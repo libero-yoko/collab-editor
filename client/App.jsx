@@ -1,7 +1,11 @@
 import React, {useState, useEffect} from 'react';
+
 function App(){
   const[conversation, setConversation] = useState([]);
 
+  /************************************************ 
+    First time loading, list conversations 
+  *************************************************/
   useEffect(() => {
     fetch('/conversations')
     .then(data => data.json())
@@ -12,9 +16,10 @@ function App(){
     })
   },[]);
   
-
+ /************************************************ 
+    On delete button click, detete conversation 
+  ************************************************/
   const deleteData = (event) => {
-
     const convId = event.target.parentElement.id
     console.log("Deleting", convId)
     fetch('/conversations/' + convId, {
@@ -23,7 +28,7 @@ function App(){
     .then(res => res.json())
     .then(res => {
       let updatedConv = [...conversation]
-      updatedConv = updatedConv.filter(item => item._id !== event.target.parentElement.id);
+      updatedConv = updatedConv.filter(item => item._id !== convId);
       setConversation(updatedConv);
       event.target.parentElement.classname = "deleted"
       console.log(res)
@@ -31,6 +36,9 @@ function App(){
     })
   }
 
+  /************************************************ 
+    On like button click, star conversation 
+  ************************************************/
   const handleLike = (event) => {
     console.log("Liking",  event.target.parentElement.id)
     let updatedConv = [...conversation]
@@ -46,6 +54,10 @@ function App(){
     });
     setConversation(updatedConv);
   }
+
+  /************************************************ 
+    Render 
+  ************************************************/
 
   return(
     <>

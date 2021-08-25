@@ -1,6 +1,12 @@
+/************************************************ 
+  Controller: mutations
+*************************************************/
 import collabEditors from '../models/collabEditorModel.js';
 const mutationController = {};
 
+/***************************** 
+  Post Mutations
+******************************/
 mutationController.postMutations = (req, res, next)=>{
   
   // destructure request body data
@@ -20,9 +26,7 @@ mutationController.postMutations = (req, res, next)=>{
   collabEditors.findOne({"_id": id})
   .then(conversation => {
     // new conversation
-    console.log("finding one and updating:" , id )
     if(!conversation){
-        console.log("no data under id: ", id)
         const conversationInfo = {
           updated_text: data.text,
           _id:id,
@@ -33,10 +37,8 @@ mutationController.postMutations = (req, res, next)=>{
           }]
         }
 
-        console.log('storing data id :', conversationInfo)
         collabEditors.create(conversationInfo)
         .then((list)=>{
-          console.log("database update success:", id)
           res.locals.message = {
             "msg": "Successfully Created Conversation",
             "ok": true,
@@ -55,15 +57,12 @@ mutationController.postMutations = (req, res, next)=>{
       // existing conversation
       }else{
         // determin if transformation is necessary
-        console.log("deciding if mutation is necessary")
         const isTransformNeeded = determineIfTransformNeeded(mutation, conversation);
         // if transformation is necessary, update the mutation
 
         newMutation = (isTransformNeeded)? transform(mutation, conversation): mutation;
-        console.log("conversation", conversation)// conversation.contentがない！
         updatedString = editString(newMutation, conversation.updated_text);
         // form retruning object
-        console.log(updatedString)
         collabEditors.findOneAndUpdate(
           {"_id": id}, 
           {"updated_text": updatedString, $push:{"lastMutation":newMutation}}, 
@@ -93,7 +92,9 @@ mutationController.postMutations = (req, res, next)=>{
   })
 }
 
-
+/*********************************
+  Determin if Transform is Needed
+**********************************/
 const determineIfTransformNeeded = (mutation, lastConversation) => {
     // if the last mutation's origin is the same as the current mutation
     // and author is different, return true (to update mutation)
@@ -104,6 +105,9 @@ const determineIfTransformNeeded = (mutation, lastConversation) => {
     return false;
 }
 
+/**************************************************
+  Transform mutation based on the last Mutation 
+***************************************************/
 const transform = (mutation, lastConversation) => {
     // return combined mutation
     let author = mutation.author
@@ -121,6 +125,9 @@ const transform = (mutation, lastConversation) => {
     return mutation;
 }
 
+/**************************************************
+  Edit String 
+***************************************************/
 const editString = (mutation, lastVersionText) => {
   let string = '';
   let index = mutation.data.index;

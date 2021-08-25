@@ -1,5 +1,13 @@
+/************************************************ 
+  Controller: conversations
+*************************************************/
+
 import collabEditors from '../models/collabEditorModel.js';
 const conversationsController = {};
+
+/***************************** 
+  Get Conversations
+******************************/
 
 conversationsController.getConversations = (req, res, next)=>{
   
@@ -21,6 +29,10 @@ conversationsController.getConversations = (req, res, next)=>{
     }
   })
 }
+
+/***************************** 
+  Delete Conversations
+******************************/
 
 conversationsController.deleteConversation = (req, res, next)=>{
   console.log("deleting",  [req.params.id])

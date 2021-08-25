@@ -24,3 +24,15 @@ Create `colab-editor/.env` then edit it with your settings. You will need:
 ## Simple build for production
 
     $ npm run build
+
+## Start production server
+
+    $ npm start
+
+
+# Known issues
+
+## Delete request returns 400
+
+Delete button works (frontend/backend) but returns bad request error
+

@@ -1,3 +1,7 @@
+/************************************************ 
+  Route: /conversations
+*************************************************/
+
 import express from 'express';
 import conversationsController from '../controllers/conversationsController.js'
 const router = express.Router();

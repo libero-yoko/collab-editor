@@ -41,23 +41,23 @@ export default {
       directory:  path.resolve('./', '/client',),
     },
     proxy: {
-      '/**': {
-        target: 'http://localhost:3000',
+      // '/**': {
+      //   target: 'http://localhost:3000',
+      //   secure: false,
+      //   changeOrigin: true,
+      // },
+      '/conversations': {
+        target: 'http://localhost:3000/',
         secure: false,
-        changeOrigin: true,
       },
-      // '/conversations': {
-      //   target: 'http://localhost:3000/',
-      //   secure: false,
-      // },
-      // '/info': {
-      //   target: 'http://localhost:3000/',
-      //   secure: false,
-      // },
-      // '/mutations': {
-      //   target: 'http://localhost:3000/',
-      //   secure: false,
-      // }
+      '/info': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      },
+      '/mutations': {
+        target: 'http://localhost:3000/',
+        secure: false,
+      }
     },
     port: 8080,
     hot: true,
