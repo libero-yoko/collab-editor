@@ -13,10 +13,10 @@ function App(){
   },[]);
   
 
-  const deleteData = (event, id) => {
+  const deleteData = (event) => {
     console.log("Deleting", event.target.parentElement.id)
-    let updatedConv = conversation.filter(_id !== event.target.parentElement.id);
-    console.log(updatedConv)
+    let updatedConv = [...conversation]
+    updatedConv = updatedConv.filter(item => item._id !== event.target.parentElement.id);
     setConversation(updatedConv);
     event.target.parentElement.classname = "deleted"
   //   fetch('/conversations/', {
@@ -33,31 +33,38 @@ function App(){
   //   })
   }
 
-  const handleLike = (id, event) => {
-    console.log("Liking", event.target)
+  const handleLike = (event) => {
+    console.log("Liking",  event.target.parentElement.id)
+    let updatedConv = [...conversation]
     event.target.innertext = "❤️"
-    // let mapped = conversation.map(item =>{
-    //   return item.id == id ? { ...item, liked : item.liked} : {...item};
-    // });
-    // setConversation(mapped);
+    updatedConv.map(item =>{
+      if(item._id == event.target.parentElement.id) {
+        if(item.liked === true){
+          item.liked = false
+        }else{
+          item.liked = true;
+        };
+      }
+    });
+    setConversation(updatedConv);
   }
 
   return(
     <>
-      <h1>List of conversations</h1>
+      <h1>List of Conversations</h1>
         <ul>
           {conversation.map((row) => (
-            <li key={row.conversationId} id={row.conversationId}>
-              <button onClick = {handleLike}>
-              {row.liked ? (
-                <>❤️</>
-              ):(
-                <>♡</>
-              )}
-              </button>
-              <button onClick={deleteData}>DELETE</button>
-              {row.content} 
-            </li>
+              <li key={row._id} id={row._id}>
+                <div className="list-like" onClick = {handleLike}>
+                {row.liked ? (
+                  <>🌟</>
+                ):(
+                  <>☆</>
+                )}
+                </div>
+                <div className="list-text">{row.updated_text}</div>
+                <button className="list-button" onClick={deleteData}>−</button>
+              </li>
           ))}
         </ul>
     </>
