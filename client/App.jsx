@@ -14,23 +14,21 @@ function App(){
   
 
   const deleteData = (event) => {
-    console.log("Deleting", event.target.parentElement.id)
-    let updatedConv = [...conversation]
-    updatedConv = updatedConv.filter(item => item._id !== event.target.parentElement.id);
-    setConversation(updatedConv);
-    event.target.parentElement.classname = "deleted"
-  //   fetch('/conversations/', {
-  //     method: 'DELETE',
-  //     headers: {
-  //         'Content-type': 'application/json'
-  //     },
-  //     body: JSON.stringify({id: id})
-  // })
-  //   .then(res => res.json())
-  //   .then(res => {
-  //     console.log(res)
-  //     return res;
-  //   })
+
+    const convId = event.target.parentElement.id
+    console.log("Deleting", convId)
+    fetch('/conversations/' + convId, {
+      method: "DELETE",
+  })
+    .then(res => res.json())
+    .then(res => {
+      let updatedConv = [...conversation]
+      updatedConv = updatedConv.filter(item => item._id !== event.target.parentElement.id);
+      setConversation(updatedConv);
+      event.target.parentElement.classname = "deleted"
+      console.log(res)
+      return res;
+    })
   }
 
   const handleLike = (event) => {
