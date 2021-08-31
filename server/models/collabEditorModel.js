@@ -18,10 +18,10 @@ const Schema = mongoose.Schema;
 
 const collabSchema = new Schema(
   {
-    updated_text: {type: String, required:false},
     _id: {type: String,  required:true},
-    lastMutation: [{
-      last_updated_text: {type: String,  required:false},
+    updated_text: {type: String, required:false},
+    lastMutations: {
+      updated_text: {type: String, required:false},
       author: {type: String,  required:false},
       data: {
         index: {type: Number,  required:false},
@@ -33,8 +33,9 @@ const collabSchema = new Schema(
         alice: {type: Number,  required:false},
         bob: {type: Number,  required:false},
       },
-      next: {type: Object, required: false}
-    }]
+      next: {type: Object, required: false},
+      prev: {type: Object, required: false},
+    }
   }
 )
 
